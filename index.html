@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinPlan - Tu Plan Financiero</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>💵 FinPlan</h1>
+            <p>Tu plan financiero</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-link active" data-page="dashboard">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-link" data-page="simulador">
+                <span class="nav-icon">💰</span>
+                <span>Simulador</span>
+            </a>
+            <a href="#" class="nav-link" data-page="bitacora">
+                <span class="nav-icon">📝</span>
+                <span>Bitácora</span>
+            </a>
+            <a href="#" class="nav-link" data-page="metas">
+                <span class="nav-icon">🎯</span>
+                <span>Metas</span>
+            </a>
+            <a href="#" class="nav-link" data-page="graficos">
+                <span class="nav-icon">📈</span>
+                <span>Gráficos</span>
+            </a>
+            <a href="#" class="nav-link" data-page="gamificacion">
+                <span class="nav-icon">🏆</span>
+                <span>Gamificación</span>
+            </a>
+            <a href="#" class="nav-link" data-page="configuracion">
+                <span class="nav-icon">⚙️</span>
+                <span>Configuración</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="theme-toggle" id="themeToggle">
+                <span id="themeIcon">🌙</span>
+                <span>Tema</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <section class="page active" id="dashboard">
+            <div class="page-header">
+                <h1>Bienvenido a FinPlan 💵</h1>
+                <p>Tu centro de control financiero personal</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value" id="totalAhorro">$0</div>
+                    <div class="stat-label">Total Ahorrado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="metasCompletadas">0/0</div>
+                    <div class="stat-label">Metas Completadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-value" id="entradasBitacora">0</div>
+                    <div class="stat-label">Entradas en Bitácora</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value" id="userPuntos">0</div>
+                    <div class="stat-label">Puntos - <span id="userNivel">Novato</span></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Acciones Rápidas</h2>
+                <div class="quick-actions">
+                    <button class="btn btn-primary" onclick="navigateTo('simulador')">💰 Nueva Simulación</button>
+                    <button class="btn btn-secondary" onclick="navigateTo('bitacora')">📝 Escribir en Bitácora</button>
+                    <button class="btn btn-secondary" onclick="navigateTo('metas')">🎯 Crear Meta</button>
+                </div>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h2>Metas Recientes</h2>
+                    <div id="recentGoals"></div>
+                </div>
+                <div class="card">
+                    <h2>Últimas Entradas</h2>
+                    <div id="recentEntries"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simulador Page -->
+        <section class="page" id="simulador">
+            <div class="page-header">
+                <h1>Simulador de Ahorro 💰</h1>
+                <p>Calcula cómo crecerá tu dinero con interés compuesto</p>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h2>Parámetros de Simulación</h2>
+                    <form id="simuladorForm" class="form">
+                        <div class="form-group">
+                            <label>Monto Inicial</label>
+                            <input type="number" id="montoInicial" placeholder="Ej: 10000" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Aportación Mensual</label>
+                            <input type="number" id="aportacionMensual" placeholder="Ej: 500" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tasa de Interés Anual (%)</label>
+                            <input type="number" id="tasaInteres" placeholder="Ej: 5" min="0" max="100" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Período (meses)</label>
+                            <input type="number" id="periodoMeses" placeholder="Ej: 12" min="1" max="600" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Calcular</button>
+                    </form>
+                </div>
+
+                <div class="card" id="resultadoCard" style="display: none;">
+                    <h2>Resultados</h2>
+                    <div class="result-highlight">
+                        <div class="result-label">Monto Final</div>
+                        <div class="result-value" id="montoFinal">$0</div>
+                    </div>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-item-label">Total Invertido</div>
+                            <div class="result-item-value" id="totalInvertido">$0</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-item-label">Interés Ganado</div>
+                            <div class="result-item-value" id="interesGanado">$0</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="guardarSimulacion()">💾 Guardar Simulación</button>
+                </div>
+            </div>
+
+            <div class="card" id="progresoCard" style="display: none;">
+                <h2>Progreso Mensual</h2>
+                <div class="table-container">
+                    <table id="progresoTable">
+                        <thead>
+                            <tr>
+                                <th>Mes</th>
+                                <th>Monto</th>
+                                <th>Interés</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bitácora Page -->
+        <section class="page" id="bitacora">
+            <div class="page-header">
+                <h1>Bitácora Emocional 📝</h1>
+                <p>Registra tus reflexiones y emociones financieras</p>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h2>Nueva Entrada</h2>
+                    <form id="bitacoraForm" class="form">
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" id="entradaTitulo" placeholder="Ej: Ahorro del mes" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoría</label>
+                            <select id="entradaCategoria" required>
+                                <option value="ahorro">💰 Ahorro</option>
+                                <option value="gasto">💸 Gasto</option>
+                                <option value="emocion">💭 Emoción</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Sentimiento</label>
+                            <div class="sentiment-buttons">
+                                <button type="button" class="sentiment-btn" data-sentiment="😊">😊</button>
+                                <button type="button" class="sentiment-btn" data-sentiment="😐">😐</button>
+                                <button type="button" class="sentiment-btn" data-sentiment="😔">😔</button>
+                                <button type="button" class="sentiment-btn" data-sentiment="😤">😤</button>
+                                <button type="button" class="sentiment-btn" data-sentiment="🎉">🎉</button>
+                                <button type="button" class="sentiment-btn" data-sentiment="😰">😰</button>
+                            </div>
+                            <input type="hidden" id="entradaSentimiento" value="😊">
+                        </div>
+                        <div class="form-group">
+                            <label>Contenido</label>
+                            <textarea id="entradaContenido" placeholder="Escribe tus reflexiones aquí..." rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">💾 Guardar Entrada</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>Entradas Anteriores</h2>
+                    <div id="entradasList"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metas Page -->
+        <section class="page" id="metas">
+            <div class="page-header">
+                <h1>Metas Financieras 🎯</h1>
+                <p>Establece y sigue tus objetivos financieros</p>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h2 id="metaFormTitle">Nueva Meta</h2>
+                    <form id="metaForm" class="form">
+                        <input type="hidden" id="metaId">
+                        <div class="form-group">
+                            <label>Nombre de la Meta</label>
+                            <input type="text" id="metaNombre" placeholder="Ej: Vacaciones en verano" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Monto Objetivo</label>
+                            <input type="number" id="metaMontoObjetivo" placeholder="Ej: 10000" min="0" required>
+                        </div>
+                        <div class="form-group" id="metaMontoActualGroup" style="display: none;">
+                            <label>Monto Actual</label>
+                            <input type="number" id="metaMontoActual" placeholder="Ej: 5000" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha Límite</label>
+                            <input type="date" id="metaFechaLimite" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoría</label>
+                            <select id="metaCategoria" required>
+                                <option value="general">🎯 General</option>
+                                <option value="viaje">✈️ Viaje</option>
+                                <option value="casa">🏠 Casa</option>
+                                <option value="coche">🚗 Coche</option>
+                                <option value="educacion">📚 Educación</option>
+                                <option value="emergencia">🆘 Emergencia</option>
+                                <option value="inversion">📈 Inversión</option>
+                                <option value="retiro">🏖️ Retiro</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="metaSubmitBtn">💾 Crear Meta</button>
+                            <button type="button" class="btn btn-secondary" id="metaCancelBtn" style="display: none;" onclick="cancelarEdicionMeta()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>Tus Metas</h2>
+                    <div id="metasList"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficos Page -->
+        <section class="page" id="graficos">
+            <div class="page-header">
+                <h1>Gráficos y Análisis 📈</h1>
+                <p>Visualiza tu progreso financiero</p>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h2>Progreso de Metas</h2>
+                    <div id="graficosMetas"></div>
+                </div>
+                <div class="card">
+                    <h2>Distribución de Entradas</h2>
+                    <div id="graficosEntradas"></div>
+                </div>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h2>Resumen General</h2>
+                    <div id="resumenGeneral"></div>
+                </div>
+                <div class="card">
+                    <h2>Estadísticas de Bitácora</h2>
+                    <div id="estadisticasBitacora"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gamificación Page -->
+        <section class="page" id="gamificacion">
+            <div class="page-header">
+                <h1>Gamificación 🏆</h1>
+                <p>Tu progreso y logros financieros</p>
+            </div>
+
+            <div class="card">
+                <h2>Tu Nivel</h2>
+                <div class="nivel-display">
+                    <div class="nivel-icon" id="nivelIcon">🌱</div>
+                    <div class="nivel-info">
+                        <div class="nivel-nombre" id="nivelNombre">Novato</div>
+                        <div class="nivel-puntos" id="nivelPuntos">0 puntos</div>
+                        <div class="nivel-progreso" id="nivelProgreso">0 puntos para Intermedio</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="nivelProgressBar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Logros Desbloqueados</h2>
+                <div id="logrosDesbloqueados"></div>
+            </div>
+
+            <div class="card">
+                <h2>Logros Pendientes</h2>
+                <div id="logrosPendientes"></div>
+            </div>
+
+            <div class="card">
+                <h2>Cómo Ganar Puntos</h2>
+                <div class="puntos-info">
+                    <div class="punto-item">
+                        <span className="punto-icon">📝</span>
+                        <div>
+                            <div className="punto-title">Escribir en bitácora</div>
+                            <div className="punto-desc">+10 puntos por entrada</div>
+                        </div>
+                    </div>
+                    <div className="punto-item">
+                        <span className="punto-icon">💰</span>
+                        <div>
+                            <div className="punto-title">Guardar simulación</div>
+                            <div className="punto-desc">+10 puntos por simulación</div>
+                        </div>
+                    </div>
+                    <div className="punto-item">
+                        <span className="punto-icon">🎯</span>
+                        <div>
+                            <div className="punto-title">Crear meta</div>
+                            <div className="punto-desc">+50 puntos por meta</div>
+                        </div>
+                    </div>
+                    <div className="punto-item">
+                        <span className="punto-icon">🏆</span>
+                        <div>
+                            <div className="punto-title">Completar meta</div>
+                            <div className="punto-desc">+100 puntos por meta completada</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configuración Page -->
+        <section class="page" id="configuracion">
+            <div class="page-header">
+                <h1>Configuración ⚙️</h1>
+                <p>Personaliza tu experiencia</p>
+            </div>
+
+            <div class="card">
+                <h2>Apariencia</h2>
+                <div class="setting-item">
+                    <div>
+                        <div className="setting-title">Tema</div>
+                        <div className="setting-desc">Cambia entre modo claro y oscuro</div>
+                    </div>
+                    <button class="theme-toggle" id="themeToggle2">
+                        <span id="themeIcon2">🌙</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Estadísticas de Almacenamiento</h2>
+                <div class="storage-stats">
+                    <div class="storage-stat">
+                        <div className="storage-value" id="statEntradas">0</div>
+                        <div className="storage-label">Entradas</div>
+                    </div>
+                    <div class="storage-stat">
+                        <div className="storage-value" id="statMetas">0</div>
+                        <div className="storage-label">Metas</div>
+                    </div>
+                    <div class="storage-stat">
+                        <div className="storage-value" id="statSimulaciones">0</div>
+                        <div className="storage-label">Simulaciones</div>
+                    </div>
+                    <div class="storage-stat">
+                        <div className="storage-value" id="statPuntos">0</div>
+                        <div className="storage-label">Puntos</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Gestión de Datos</h2>
+                <div class="data-management">
+                    <div class="data-action">
+                        <div>
+                            <div className="data-title">Exportar Datos</div>
+                            <div className="data-desc">Descarga una copia de seguridad de todos tus datos en formato JSON</div>
+                        </div>
+                        <button class="btn btn-primary" onclick="exportarDatos()">📥 Exportar Backup</button>
+                    </div>
+                    <div class="data-action danger">
+                        <div>
+                            <div className="data-title">Zona de Peligro</div>
+                            <div className="data-desc">Esta acción eliminará permanentemente todos tus datos. Esta acción no se puede deshacer.</div>
+                        </div>
+                        <button class="btn btn-danger" id="btnEliminarDatos" onclick="confirmarEliminacion()">🗑️ Eliminar Todos los Datos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Información de la Aplicación</h2>
+                <div class="app-info">
+                    <div className="info-item">
+                        <span className="info-label">Versión</span>
+                        <span className="info-value">1.0.0</span>
+                    </div>
+                    <div className="info-item">
+                        <span className="info-label">Framework</span>
+                        <span className="info-value">HTML, CSS, JavaScript</span>
+                    </div>
+                    <div className="info-item">
+                        <span className="info-label">Almacenamiento</span>
+                        <span className="info-value">Local (localStorage)</span>
+                    </div>
+                    <div className="info-item">
+                        <span className="info-label">Desarrollado para</span>
+                        <span className="info-value">Campuslands</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

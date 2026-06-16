@@ -1,6 +1,6 @@
 # FinPlan - Tu Plan Financiero 💵
 
-Aplicación financiera integral desarrollada con Next.js, diseñada para ayudar a gestionar tus finanzas personales mediante herramientas prácticas y elementos motivacionales.
+Aplicación financiera integral desarrollada con HTML, CSS y JavaScript puro, diseñada para ayudar a gestionar tus finanzas personales mediante herramientas prácticas y elementos motivacionales.
 
 ## Descripción
 
@@ -37,10 +37,9 @@ FinPlan es una aplicación web responsive que combina herramientas financieras p
 
 ### Tecnologías
 
-- Next.js 16.2.9 con App Router
-- React 19.2.4
-- TypeScript 5
-- TailwindCSS 4
+- HTML5
+- CSS3 con Variables CSS
+- JavaScript ES6+
 - localStorage para persistencia de datos
 
 ---
