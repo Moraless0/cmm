@@ -161,7 +161,13 @@ function navigateTo(pageId) {
     });
     
     // Show selected page
-    document.getElementById(pageId).classList.add('active');
+    const selectedPage = document.getElementById(pageId);
+    if (selectedPage) {
+        selectedPage.classList.add('active');
+    } else {
+        console.error('Page not found:', pageId);
+        return;
+    }
     
     // Update nav links
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -176,6 +182,9 @@ function navigateTo(pageId) {
     
     // Refresh page data
     refreshPageData(pageId);
+    
+    // Update URL hash for better navigation
+    window.location.hash = pageId;
 }
 
 function refreshPageData(pageId) {
@@ -313,7 +322,7 @@ function guardarSimulacion() {
     
     storage.saveSimulacion(simulacion);
     storage.addPoints(10);
-    alert('¡Simulación guardada! +10 puntos');
+    showToast('¡Simulación guardada! +10 puntos', 'success');
 }
 
 // Bitácora
@@ -354,7 +363,7 @@ document.getElementById('bitacoraForm').addEventListener('submit', function(e) {
     document.querySelector('.sentiment-btn[data-sentiment="😊"]').classList.add('active');
     
     updateBitacoraList();
-    alert('¡Entrada guardada! +10 puntos');
+    showToast('¡Entrada guardada! +10 puntos', 'success');
 });
 
 function updateBitacoraList() {
@@ -414,7 +423,7 @@ document.getElementById('metaForm').addEventListener('submit', function(e) {
     
     cancelarEdicionMeta();
     updateMetasList();
-    alert(editingMetaId ? '¡Meta actualizada! +50 puntos' : '¡Meta creada! +50 puntos');
+    showToast(editingMetaId ? '¡Meta actualizada! +50 puntos' : '¡Meta creada! +50 puntos', 'success');
 });
 
 function updateMetasList() {
@@ -503,7 +512,7 @@ function actualizarProgresoMeta(id) {
             if (actualizada.completada && !goal.completada) {
                 storage.addPoints(100);
                 storage.addAchievement('meta_completada');
-                alert('¡Felicidades! Meta completada 🎉 +100 puntos');
+                showToast('¡Felicidades! Meta completada 🎉 +100 puntos', 'success');
             }
             
             updateMetasList();
@@ -733,9 +742,28 @@ function confirmarEliminacion() {
         localStorage.removeItem('user_progress');
         localStorage.removeItem('simulaciones_guardadas');
         localStorage.removeItem('theme_preference');
-        alert('Todos los datos han sido eliminados');
-        location.reload();
+        showToast('Todos los datos han sido eliminados', 'success');
+        setTimeout(() => location.reload(), 2000);
     }
+}
+
+// Toast notifications
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 
 // Initialize
@@ -767,6 +795,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize sentiment button
     document.querySelector('.sentiment-btn[data-sentiment="😊"]').classList.add('active');
     
-    // Load initial data
-    updateDashboard();
+    // Handle URL hash on load
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+        navigateTo(hash);
+    } else {
+        updateDashboard();
+    }
+    
+    // Handle hash changes
+    window.addEventListener('hashchange', function() {
+        const hash = window.location.hash.slice(1);
+        if (hash) {
+            navigateTo(hash);
+        }
+    });
 });
