@@ -7,56 +7,15 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h1>💵 FinPlan</h1>
-            <p>Tu plan financiero</p>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-link active" data-page="dashboard">
-                <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="#" class="nav-link" data-page="simulador">
-                <span class="nav-icon">💰</span>
-                <span>Simulador</span>
-            </a>
-            <a href="#" class="nav-link" data-page="bitacora">
-                <span class="nav-icon">📝</span>
-                <span>Bitácora</span>
-            </a>
-            <a href="#" class="nav-link" data-page="metas">
-                <span class="nav-icon">🎯</span>
-                <span>Metas</span>
-            </a>
-            <a href="#" class="nav-link" data-page="graficos">
-                <span class="nav-icon">📈</span>
-                <span>Gráficos</span>
-            </a>
-            <a href="#" class="nav-link" data-page="gamificacion">
-                <span class="nav-icon">🏆</span>
-                <span>Gamificación</span>
-            </a>
-            <a href="#" class="nav-link" data-page="configuracion">
-                <span class="nav-icon">⚙️</span>
-                <span>Configuración</span>
-            </a>
-        </nav>
-        <div class="sidebar-footer">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <h1>� FinPlan</h1>
             <button class="theme-toggle" id="themeToggle">
                 <span id="themeIcon">🌙</span>
-                <span>Tema</span>
             </button>
         </div>
-    </aside>
-
-    <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    </header>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -393,11 +352,8 @@
                 <div class="setting-item">
                     <div>
                         <div className="setting-title">Tema</div>
-                        <div className="setting-desc">Cambia entre modo claro y oscuro</div>
+                        <div className="setting-desc">Cambia entre modo claro y oscuro usando el botón en el header</div>
                     </div>
-                    <button class="theme-toggle" id="themeToggle2">
-                        <span id="themeIcon2">🌙</span>
-                    </button>
                 </div>
             </div>
 
@@ -466,6 +422,38 @@
             </div>
         </section>
     </main>
+
+    <!-- macOS-style Dock -->
+    <nav class="macos-dock" id="macosDock">
+        <a href="#" class="dock-item active" data-page="dashboard" title="Dashboard">
+            <span class="dock-icon">📊</span>
+            <span class="dock-label">Dashboard</span>
+        </a>
+        <a href="#" class="dock-item" data-page="simulador" title="Simulador">
+            <span class="dock-icon">💰</span>
+            <span class="dock-label">Simulador</span>
+        </a>
+        <a href="#" class="dock-item" data-page="bitacora" title="Bitácora">
+            <span class="dock-icon">📝</span>
+            <span class="dock-label">Bitácora</span>
+        </a>
+        <a href="#" class="dock-item" data-page="metas" title="Metas">
+            <span class="dock-icon">🎯</span>
+            <span class="dock-label">Metas</span>
+        </a>
+        <a href="#" class="dock-item" data-page="graficos" title="Gráficos">
+            <span class="dock-icon">📈</span>
+            <span class="dock-label">Gráficos</span>
+        </a>
+        <a href="#" class="dock-item" data-page="gamificacion" title="Gamificación">
+            <span class="dock-icon">🏆</span>
+            <span class="dock-label">Gamificación</span>
+        </a>
+        <a href="#" class="dock-item" data-page="configuracion" title="Configuración">
+            <span class="dock-icon">⚙️</span>
+            <span class="dock-label">Configuración</span>
+        </a>
+    </nav>
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>

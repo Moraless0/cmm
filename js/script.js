@@ -147,10 +147,10 @@ function toggleTheme() {
 }
 
 function updateThemeIcons(theme) {
-    const icons = document.querySelectorAll('#themeIcon, #themeIcon2');
-    icons.forEach(icon => {
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
         icon.textContent = theme === 'light' ? '🌙' : '☀️';
-    });
+    }
 }
 
 // Navigation
@@ -169,16 +169,13 @@ function navigateTo(pageId) {
         return;
     }
     
-    // Update nav links
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-        if (link.dataset.page === pageId) {
-            link.classList.add('active');
+    // Update dock items
+    document.querySelectorAll('.dock-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.page === pageId) {
+            item.classList.add('active');
         }
     });
-    
-    // Close mobile menu
-    closeMobileMenu();
     
     // Refresh page data
     refreshPageData(pageId);
@@ -208,23 +205,6 @@ function refreshPageData(pageId) {
             updateConfiguracion();
             break;
     }
-}
-
-// Mobile menu
-function toggleMobileMenu() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.querySelector('.overlay');
-    
-    sidebar.classList.toggle('open');
-    overlay.classList.toggle('active');
-}
-
-function closeMobileMenu() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.querySelector('.overlay');
-    
-    sidebar.classList.remove('open');
-    overlay.classList.remove('active');
 }
 
 // Dashboard
@@ -771,26 +751,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize theme
     initTheme();
     
-    // Theme toggle listeners
+    // Theme toggle listener
     document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    document.getElementById('themeToggle2').addEventListener('click', toggleTheme);
     
     // Navigation listeners
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', function(e) {
+    document.querySelectorAll('.dock-item').forEach(item => {
+        item.addEventListener('click', function(e) {
             e.preventDefault();
             navigateTo(this.dataset.page);
         });
     });
-    
-    // Mobile menu
-    document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
-    
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
-    overlay.addEventListener('click', closeMobileMenu);
-    document.body.appendChild(overlay);
     
     // Initialize sentiment button
     document.querySelector('.sentiment-btn[data-sentiment="😊"]').classList.add('active');
